@@ -1,0 +1,47 @@
+---
+// Theme chooser, shown at / only while THEME is undefined in src/config.ts.
+// The leading underscore keeps it out of the build; rename to index.astro to use it again.
+import { THEMES } from '../config';
+
+const notes: Record<(typeof THEMES)[number], string> = {
+  tufte: 'Edward Tufte’s books: ET Book, cream paper, wide margin.',
+  'al-folio': 'The common academic Jekyll theme: clean sans, venue badges.',
+  latex: 'A LaTeX article: Computer Modern, numbered sections, hyperref link boxes.',
+  manpage: 'A Unix manual page, section 7, in a terminal.',
+  swiss: 'International Typographic Style: grotesk, label grid, one red.',
+  '1997': 'An early-web professor’s homepage: Netscape grey, Times, bevelled rules.',
+  blueprint: 'An engineering drawing: drafting grid, detail bubbles, title block.',
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Choose a theme</title>
+    <link rel="stylesheet" href="/styles/base.css" />
+    <style>
+      body { font-family: system-ui, sans-serif; max-width: 36rem; margin: 4rem auto; padding: 0 1rem; color: #222; background: #fff; }
+      ul { list-style: none; padding: 0; display: grid; gap: 0.75rem; }
+      a { display: block; padding: 1rem 1.25rem; border: 1px solid #ddd; border-radius: 8px; color: inherit; text-decoration: none; }
+      a:hover, a:focus-visible { border-color: #888; }
+      strong { font-size: 1.2rem; }
+      span { display: block; color: #666; font-size: 0.9rem; margin-top: 0.2rem; }
+    </style>
+  </head>
+  <body>
+    <h1>Choose a theme</h1>
+    <p>The same site, built once per theme. Every page works in all of them.</p>
+    <ul>
+      {
+        THEMES.map((t) => (
+          <li>
+            <a href={`/${t}/`}><strong>{t}</strong><span>{notes[t]}</span></a>
+          </li>
+        ))
+      }
+    </ul>
+  </body>
+</html>

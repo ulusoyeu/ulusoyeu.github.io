@@ -1,0 +1,42 @@
+/* Structure shared by every theme. Colours, fonts and spacing live in the theme files. */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+img, svg, audio { max-width: 100%; }
+img { height: auto; display: block; }
+
+.skip-link { position: absolute; left: -999px; top: 0; padding: 0.5rem 1rem; z-index: 10; }
+.skip-link:focus { left: 1rem; }
+:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+
+/* Faded section divider */
+hr.fade {
+  border: 0;
+  height: 1px;
+  margin: 3rem 0;
+  background: linear-gradient(to right, transparent, var(--rule, #999), transparent);
+}
+
+.site-header nav ul,
+.contact, .news-list, .pub-list, .pub-links, .post-list, .music-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.site-header nav ul, .pub-links { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
+
+.icon { vertical-align: -0.125em; }
+
+/* Long equations and BibTeX scroll instead of breaking the layout */
+.katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.25rem 0; }
+pre { overflow-x: auto; }
+
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: 1.5rem; }
+.gallery figure { margin: 0; }
+
+.poem-body p { white-space: pre-line; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

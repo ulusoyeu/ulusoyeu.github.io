@@ -1,0 +1,69 @@
+---
+import { getEntry, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import PublicationList from '../../components/PublicationList.astro';
+import { getNews, getPublications } from '../../lib/content';
+import { themePaths, href, formatDate } from '../../lib/routes';
+
+export const getStaticPaths = () => themePaths();
+
+const theme = Astro.params.theme;
+const about = (await getEntry('about', 'about'))!;
+const { Content: Bio } = await render(about);
+const { name, role, affiliation, email, github, linkedin, scholar, photo, photoAlt } = about.data;
+const news = (await getNews()).slice(0, 5);
+const selected = (await getPublications()).filter((p) => p.data.selected);
+---
+
+<Base>
+  <article class="home">
+    <header class="page-header">
+      <h1>{name}</h1>
+      <p class="subtitle">{role}{affiliation && <>, {affiliation}</>}</p>
+    </header>
+
+    <section class="profile">
+      <figure class="portrait">
+        <Image src={photo} alt={photoAlt} width={360} loading="eager" />
+        <ul class="contact">
+          <li><a href={`https://github.com/${github}`}><Icon name="github" /><span>GitHub</span></a></li>
+          {linkedin && <li><a href={linkedin}><Icon name="linkedin" /><span>LinkedIn</span></a></li>}
+          <li><a href={`mailto:${email}`}><Icon name="email" /><span>{email}</span></a></li>
+          {scholar && <li><a href={scholar}><Icon name="scholar" /><span>Google Scholar</span></a></li>}
+        </ul>
+      </figure>
+      <div class="bio prose"><Bio /></div>
+    </section>
+
+    <hr class="fade" />
+
+    <section class="news" aria-labelledby="news-heading">
+      <h2 id="news-heading">News</h2>
+      <ul class="news-list">
+        {
+          await Promise.all(
+            news.map(async (item) => {
+              const { Content } = await render(item);
+              return (
+                <li>
+                  <time datetime={item.data.date.toISOString()}>{formatDate(item.data.date, 'short')}</time>
+                  <div class="news-text"><Content /></div>
+                </li>
+              );
+            }),
+          )
+        }
+      </ul>
+    </section>
+
+    <hr class="fade" />
+
+    <section class="selected" aria-labelledby="pubs-heading">
+      <h2 id="pubs-heading">Selected publications</h2>
+      <PublicationList publications={selected} />
+      <p class="more"><a href={href(theme, '/publications/')}>All publications →</a></p>
+    </section>
+  </article>
+</Base>

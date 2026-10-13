@@ -1,0 +1,6 @@
+# One entry per piece. Use `audio` for a file in public/audio/, `link` for an external page, or both.
+- id: first-piece
+  title: Placeholder Piece
+  date: 2026-07-10
+  description: Solo piano, recorded at home.
+  link: https://example.com

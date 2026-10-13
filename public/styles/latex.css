@@ -1,0 +1,132 @@
+/* LaTeX theme: the page set like a LaTeX article. Computer Modern via KaTeX's fonts (MIT licence).
+   Details: running head, \maketitle, abstract, numbered sections, indented paragraphs,
+   [1] bibliography, hyperref's red/cyan link boxes, page number as footer. */
+
+@font-face { font-family: cmr; font-style: normal; font-weight: 400; font-display: swap;
+  src: url(/fonts/cm/KaTeX_Main-Regular.woff2) format("woff2"); }
+@font-face { font-family: cmr; font-style: italic; font-weight: 400; font-display: swap;
+  src: url(/fonts/cm/KaTeX_Main-Italic.woff2) format("woff2"); }
+@font-face { font-family: cmr; font-style: normal; font-weight: 700; font-display: swap;
+  src: url(/fonts/cm/KaTeX_Main-Bold.woff2) format("woff2"); }
+@font-face { font-family: cmr; font-style: italic; font-weight: 700; font-display: swap;
+  src: url(/fonts/cm/KaTeX_Main-BoldItalic.woff2) format("woff2"); }
+@font-face { font-family: cmtt; font-style: normal; font-weight: 400; font-display: swap;
+  src: url(/fonts/cm/KaTeX_Typewriter-Regular.woff2) format("woff2"); }
+
+:root {
+  --bg: #fdfdfb;
+  --text: #111;
+  --muted: #444;
+  --rule: #111;
+  --internal: #f00; /* hyperref: linkbordercolor */
+  --external: #0cc; /* hyperref: urlbordercolor */
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: cmr, "Latin Modern Roman", "CMU Serif", Georgia, serif;
+  font-size: 1.125rem;
+  line-height: 1.45;
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 0 1.25rem 2rem;
+}
+
+a { color: inherit; text-decoration: none; outline: 1px solid var(--internal); outline-offset: 0; }
+a[href^="http"], a[href^="mailto"] { outline-color: var(--external); }
+a:hover { background: rgb(255 0 0 / 0.06); }
+a:focus-visible { outline-width: 2px; }
+
+/* Running head */
+.site-header {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.25rem 1rem;
+  padding: 1.5rem 0 0.25rem; border-bottom: 0.5px solid var(--text);
+  font-style: italic; font-size: 0.9rem;
+}
+.site-header nav ul { gap: 0.25rem 0.9rem; }
+.site-header nav a[aria-current="page"] { font-weight: 700; }
+
+/* \maketitle */
+.page-header { text-align: center; margin: 3rem 0 2.25rem; }
+h1 { font-size: 1.75rem; font-weight: 400; line-height: 1.2; margin: 0 0 1rem; }
+.subtitle { font-size: 1.15rem; margin: 0; }
+.page-header p { text-align: center; }
+
+/* \section with numbers */
+main article { counter-reset: section; }
+h2 { font-size: 1.3rem; font-weight: 700; margin: 0 0 0.75rem; }
+section > h2::before { counter-increment: section; content: counter(section); margin-right: 1em; }
+h3 { font-size: 1.05rem; font-weight: 700; margin: 0; }
+
+/* Paragraphs: justified, indented, no space between */
+p { margin: 0 0 0.75rem; }
+p, .prose li { text-align: justify; hyphens: auto; }
+/* \noindent with \parskip: no first-line indent, space between paragraphs */
+.prose p { margin: 0 0 0.75rem; }
+blockquote { margin: 0.75rem 2.5rem; font-size: 0.95rem; }
+hr:not(.fade) { border: 0; border-top: 0.5px solid var(--text); margin: 1.5rem 0; }
+
+/* Home: the bio as an abstract, the photo as a wrapped figure */
+.profile { display: flow-root; }
+.portrait { float: right; width: 13rem; margin: 0 0 0.5rem 1.75rem; }
+.portrait img { border-radius: 10px; }
+.contact { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.3rem 0.8rem; font-size: 0.72rem; text-align: center; line-height: 1.35; }
+.contact::before { content: "Figure 1: Me."; flex-basis: 100%; margin: 0.4rem 0 0.1rem; }
+.contact li:has(a[href^="mailto"]) { flex-basis: 100%; }
+.contact .icon { display: none; }
+.contact span { overflow-wrap: anywhere; }
+/* GitHub and LinkedIn as logos; their names stay readable to screen readers */
+.contact a:is([href*="github.com"], [href*="linkedin.com"]) { display: inline-flex; outline: none; color: var(--text); }
+.contact a:is([href*="github.com"], [href*="linkedin.com"]):hover { background: none; color: var(--muted); }
+.contact a:is([href*="github.com"], [href*="linkedin.com"]) .icon { display: block; width: 1.35rem; height: 1.35rem; }
+.contact a:is([href*="github.com"], [href*="linkedin.com"]) span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.home .bio { font-size: 0.95rem; margin: 0 1.5rem; }
+.home .bio::before { content: " "; display: block; text-align: center; font-weight: 700; margin-bottom: 0.4rem; }
+@media (max-width: 560px) {
+  .portrait { float: none; margin: 0 auto 1.5rem; }
+  .home .bio { margin: 0; }
+}
+
+/* News as a description list */
+.news-list li { display: grid; grid-template-columns: 7.5rem 1fr; gap: 1rem; margin-bottom: 0.35rem; }
+.news-list time { font-weight: 700; }
+.news-list p { margin: 0; text-align: left; }
+@media (max-width: 480px) { .news-list li { grid-template-columns: 1fr; gap: 0; } }
+
+/* Bibliography: [1] Authors. Title. Venue, year. */
+.pub-list { counter-reset: ref; }
+.pub { display: grid; grid-template-columns: 2.25rem 1fr; margin-bottom: 0.6rem; }
+.pub::before { counter-increment: ref; content: "[" counter(ref) "]"; }
+.pub-badge { display: none; }
+.pub-body { display: flex; flex-direction: column; align-items: flex-start; }
+.pub-authors { order: -1; }
+.pub-venue em { font-style: italic; }
+.pub-links { gap: 0.25rem 0.75rem; font-size: 0.85rem; margin-top: 0.15rem; }
+.pub-links li { margin: 0; }
+.more { text-align: right; font-style: italic; }
+.publication .page-header .pub-links { justify-content: center; }
+
+.post-list li { margin-bottom: 0.9rem; }
+.post-list time { display: block; font-style: italic; font-size: 0.9rem; }
+.post-list p { text-align: left; color: var(--muted); }
+
+/* Art */
+.personal { counter-reset: section figure; }
+.gallery figcaption { text-align: center; font-size: 0.85rem; margin-top: 0.4rem; }
+.gallery figcaption::before { counter-increment: figure; content: "Figure " counter(figure) ": "; }
+.music-list li { margin-bottom: 1rem; }
+.music-list .meta { font-style: italic; margin-bottom: 0.4rem; text-align: left; }
+.poem-body { width: fit-content; margin: 0 auto 2.5rem; }
+.poem-body p { text-align: left; margin-bottom: 1.2rem; }
+
+/* verbatim */
+pre, code { font-family: cmtt, "Latin Modern Mono", monospace; font-size: 0.9rem; }
+pre.astro-code, pre.astro-code span { background: none !important; color: var(--text) !important; }
+pre { padding: 0 0 0 1.5rem; }
+.bibtex { font-size: 0.8rem; }
+
+/* Page number */
+.site-footer { text-align: center; margin-top: 4rem; }
+.site-footer::before { content: "1"; display: block; margin-bottom: 0.75rem; }
+.site-footer p { font-size: 0.75rem; color: var(--muted); text-align: center; }

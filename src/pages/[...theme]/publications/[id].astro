@@ -1,0 +1,72 @@
+---
+// One page per paper. Carries Google Scholar (Highwire Press) citation meta tags.
+import { render, type CollectionEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Authors from '../../../components/Authors.astro';
+import { getPublications } from '../../../lib/content';
+import { themePaths } from '../../../lib/routes';
+
+export async function getStaticPaths() {
+  const pubs = await getPublications();
+  return themePaths(pubs.map((pub) => ({ params: { id: pub.id }, props: pub })));
+}
+
+const pub = Astro.props as CollectionEntry<'publications'>;
+const { data } = pub;
+const { Content: Abstract } = await render(pub);
+const plainTitle = data.title.replace(/<[^>]+>/g, '');
+const absolute = (url: string) => new URL(url, Astro.site).href;
+const venueTag = data.type === 'article' ? 'citation_journal_title' : 'citation_conference_title';
+const [firstpage, lastpage] = (data.pages ?? '').split(/[-–—]+/);
+const labels: Record<string, string> = { pdf: 'PDF', code: 'Code', html: 'Website', slides: 'Slides', poster: 'Poster', url: 'Link' };
+---
+
+<Base title={plainTitle} description={`${plainTitle} (${data.year})`} type="article">
+  <Fragment slot="head">
+    <meta name="citation_title" content={plainTitle} />
+    {data.authors.map((a) => <meta name="citation_author" content={`${a.last}, ${a.first}`} />)}
+    <meta name="citation_publication_date" content={data.month ? `${data.year}/${String(data.month).padStart(2, '0')}` : `${data.year}`} />
+    {data.venue && <meta name={venueTag} content={data.venue.replace(/<[^>]+>/g, '')} />}
+    {data.volume && <meta name="citation_volume" content={data.volume} />}
+    {firstpage && <meta name="citation_firstpage" content={firstpage} />}
+    {lastpage && <meta name="citation_lastpage" content={lastpage} />}
+    {data.doi && <meta name="citation_doi" content={data.doi} />}
+    {data.links.pdf && <meta name="citation_pdf_url" content={absolute(data.links.pdf)} />}
+  </Fragment>
+
+  <article class="publication">
+    <header class="page-header">
+      <h1 set:html={data.title} />
+      <p class="pub-authors"><Authors authors={data.authors} /></p>
+      <p class="pub-venue">
+        {data.venue && <em set:html={data.venue} />}{data.venue && ', '}{data.year}
+        {data.doi && <> · <a href={`https://doi.org/${data.doi}`}>doi:{data.doi}</a></>}
+      </p>
+      {
+        Object.keys(data.links).length > 0 && (
+          <ul class="pub-links">
+            {Object.entries(data.links).map(([k, url]) => (
+              <li><a href={url}>{labels[k]}</a></li>
+            ))}
+          </ul>
+        )
+      }
+    </header>
+
+    {
+      pub.rendered && (
+        <section aria-labelledby="abstract">
+          <h2 id="abstract">Abstract</h2>
+          <div class="prose"><Abstract /></div>
+        </section>
+      )
+    }
+
+    <hr class="fade" />
+
+    <section aria-labelledby="cite">
+      <h2 id="cite">Cite</h2>
+      <pre class="bibtex"><code>{data.bibtex}</code></pre>
+    </section>
+  </article>
+</Base>

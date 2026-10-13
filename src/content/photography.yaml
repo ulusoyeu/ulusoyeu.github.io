@@ -1,0 +1,11 @@
+# One entry per photo. Put image files in src/content/photography/.
+- id: coast
+  image: ./photography/coast.jpg
+  alt: Placeholder landscape in blue tones
+  caption: Coast, placeholder
+  date: 2026-05-02
+- id: dunes
+  image: ./photography/dunes.jpg
+  alt: Placeholder landscape in warm sand tones
+  caption: Dunes, placeholder
+  date: 2026-03-14

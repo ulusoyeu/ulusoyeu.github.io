@@ -1,0 +1,27 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getPosts } from '../../../lib/content';
+import { themePaths, href, formatDate } from '../../../lib/routes';
+
+export const getStaticPaths = () => themePaths();
+
+const theme = Astro.params.theme;
+const posts = await getPosts();
+---
+
+<Base title="Blog" description="Blog posts.">
+  <article>
+    <header class="page-header"><h1>Blog</h1></header>
+    <ul class="post-list">
+      {
+        posts.map((post) => (
+          <li>
+            <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+            <a href={href(theme, `/blog/${post.id}/`)}>{post.data.title}</a>
+            <p>{post.data.description}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </article>
+</Base>

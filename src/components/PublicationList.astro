@@ -1,0 +1,38 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Authors from './Authors.astro';
+import { href } from '../lib/routes';
+
+interface Props {
+  publications: CollectionEntry<'publications'>[];
+}
+const { publications } = Astro.props;
+const theme = Astro.params.theme;
+const labels: Record<string, string> = { pdf: 'PDF', code: 'Code', html: 'Website', slides: 'Slides', poster: 'Poster', url: 'Link' };
+---
+
+<ol class="pub-list">
+  {
+    publications.map(({ id, data }) => (
+      <li class="pub">
+        <span class="pub-badge">{data.abbr ?? data.year}</span>
+        <div class="pub-body">
+          <a class="pub-title" href={href(theme, `/publications/${id}/`)} set:html={data.title} />
+          <div class="pub-authors"><Authors authors={data.authors} /></div>
+          <div class="pub-venue">
+            {data.venue && <em set:html={data.venue} />}
+            {data.venue && ', '}
+            {data.year}
+          </div>
+          {Object.keys(data.links).length > 0 && (
+            <ul class="pub-links">
+              {Object.entries(data.links).map(([k, url]) => (
+                <li><a href={url}>{labels[k]}</a></li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </li>
+    ))
+  }
+</ol>

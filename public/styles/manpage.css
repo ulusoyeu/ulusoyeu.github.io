@@ -1,0 +1,124 @@
+/* Manpage theme: the site as a Unix manual page in a terminal, section 7.
+   Details: NAME(7) header line, NAME / DESCRIPTION sections, 7-column indents, italics shown
+   as underlines (as man(1) does), SEE ALSO style navigation, OS / date / title footer. */
+
+:root {
+  color-scheme: dark;
+  --bg: #141414;
+  --text: #cfcfcf;
+  --bright: #fff;
+  --dim: #8c8c8c;
+  --rule: #6a6a6a;
+  --indent: 7ch;
+  font-size: 15px;
+}
+@media (min-width: 760px) { :root { font-size: 16px; } }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  line-height: 1.5;
+  max-width: 84ch;
+  margin: 0 auto;
+  padding: 1rem 2ch 2rem;
+}
+::selection { background: var(--text); color: var(--bg); }
+.skip-link { background: var(--text); color: var(--bg); }
+
+strong, b, h1, h2, h3 { color: var(--bright); font-weight: 700; }
+em, i { font-style: normal; text-decoration: underline; text-underline-offset: 2px; }
+a { color: var(--bright); text-decoration: underline; text-underline-offset: 2px; }
+a:hover { background: var(--text); color: var(--bg); text-decoration: none; }
+
+/* ULUSOY(7)      Miscellaneous Information Manual */
+.site-header { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0 2ch; padding: 0.5rem 0 2rem; }
+.site-title { grid-column: 1; grid-row: 1; color: var(--text); text-decoration: none; text-transform: uppercase; }
+.site-title::after { content: "(7)"; }
+.site-header::after { content: "Miscellaneous Information Manual"; grid-column: 2; grid-row: 1; text-align: center; }
+.site-header nav { grid-column: 1 / -1; grid-row: 2; margin-top: 1.25rem; }
+.site-header nav::before { content: "SEE ALSO"; display: block; color: var(--bright); font-weight: 700; }
+.site-header nav ul { gap: 0; padding-left: var(--indent); }
+.site-header nav ul { column-gap: 1ch; }
+.site-header nav li:not(:last-child)::after { content: ","; }
+.site-header nav a { color: var(--text); text-transform: lowercase; }
+.site-header nav a::after { content: "(7)"; }
+.site-header nav a[aria-current="page"] { color: var(--bright); font-weight: 700; }
+@media (max-width: 600px) {
+  .site-header { grid-template-columns: 1fr; }
+  .site-header::after { display: none; }
+}
+
+/* Sections: headings flush left, everything else indented */
+p { margin: 0 0 1rem; }
+h2 { font-size: 1rem; text-transform: uppercase; margin: 0; }
+h3 { font-size: 1rem; margin: 0; }
+main article > :not(.page-header, hr) { padding-left: var(--indent); }
+main article > section > h2 { margin-left: calc(-1 * var(--indent)); }
+
+/* NAME
+          Emre Ulusoy — PhD Student, … */
+.page-header { margin: 0 0 1.5rem; padding-left: var(--indent); }
+.page-header::before { content: "NAME"; display: block; margin-left: calc(-1 * var(--indent)); color: var(--bright); font-weight: 700; }
+.page-header h1, .page-header .subtitle { display: inline; font-size: 1rem; font-weight: 400; color: var(--text); }
+.page-header .subtitle { margin: 0; }
+.page-header .subtitle::before { content: " \2014  "; }
+.page-header > p:not(.subtitle), .page-header > ul { margin-bottom: 0; }
+
+/* DESCRIPTION: bio, with the portrait at the side */
+.profile { display: grid; gap: 1rem 3ch; }
+.profile::before { content: "DESCRIPTION"; grid-column: 1 / -1; margin-left: calc(-1 * var(--indent)); color: var(--bright); font-weight: 700; }
+.portrait { margin: 0; max-width: 18ch; }
+.portrait img { filter: grayscale(1) contrast(1.15); border: 1px solid var(--dim); }
+.contact { margin-top: 0.5rem; font-size: 0.85rem; }
+.contact .icon { display: none; }
+.contact span { overflow-wrap: anywhere; }
+@media (min-width: 640px) {
+  .profile { grid-template-columns: minmax(0, 1fr) 18ch; }
+  .bio { grid-column: 1; grid-row: 2; }
+  .portrait { grid-column: 2; grid-row: 2; }
+}
+
+hr.fade { margin: 1.5rem 0; }
+
+/* Options-style lists: term in bold, description beside it */
+.news-list li { display: grid; grid-template-columns: 13ch 1fr; gap: 0 2ch; margin-bottom: 0.5rem; }
+.news-list time { color: var(--bright); font-weight: 700; }
+.news-list p { margin: 0; }
+@media (max-width: 520px) { .news-list li { grid-template-columns: 1fr; } .news-list .news-text { padding-left: var(--indent); } }
+
+.pub { display: grid; grid-template-columns: 10ch 1fr; gap: 0 1ch; margin-bottom: 1rem; }
+.pub-badge { color: var(--dim); }
+.pub-badge::before { content: "["; }
+.pub-badge::after { content: "]"; }
+.pub-title { font-weight: 700; }
+.pub-venue { color: var(--dim); }
+.me { text-decoration: underline; }
+.pub-links { gap: 0 1ch; }
+.pub-links li { margin: 0; }
+.pub-links a::before { content: "<"; }
+.pub-links a::after { content: ">"; }
+@media (max-width: 520px) { .pub { grid-template-columns: 1fr; } }
+
+.post-list li { margin-bottom: 1rem; }
+.post-list time { display: block; color: var(--dim); }
+.post-list p { margin: 0; color: var(--dim); }
+
+/* Art */
+.gallery { gap: 2ch; }
+.gallery img { border: 1px solid var(--dim); }
+.gallery figcaption { color: var(--dim); font-size: 0.85rem; margin-top: 0.3rem; }
+.music-list li { margin-bottom: 1rem; }
+.music-list .meta { color: var(--dim); margin: 0 0 0.4rem; }
+.poem-body { margin-bottom: 2rem; }
+
+/* Code */
+pre.astro-code, pre.astro-code span { background: none !important; color: var(--text) !important; }
+pre { padding: 0; margin: 0 0 1rem; }
+code { font-family: inherit; color: var(--bright); }
+blockquote { margin: 0 0 1rem; padding-left: 2ch; border-left: 1px solid var(--dim); }
+
+/* HTML      © 2026 Emre Ulusoy */
+.site-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 2ch; padding-top: 2.5rem; }
+.site-footer::before { content: "HTML"; }
+.site-footer p { margin: 0; }

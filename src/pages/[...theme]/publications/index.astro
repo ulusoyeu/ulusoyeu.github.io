@@ -1,0 +1,28 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PublicationList from '../../../components/PublicationList.astro';
+import { getPublications } from '../../../lib/content';
+import { themePaths } from '../../../lib/routes';
+
+export const getStaticPaths = () => themePaths();
+
+const publications = await getPublications();
+const years = [...new Set(publications.map((p) => p.data.year))];
+---
+
+<Base title="Publications" description="Publications by year.">
+  <article>
+    <header class="page-header"><h1>Publications</h1></header>
+    {
+      years.map((year, i) => (
+        <>
+          {i > 0 && <hr class="fade" />}
+          <section aria-labelledby={`y${year}`}>
+            <h2 id={`y${year}`}>{year}</h2>
+            <PublicationList publications={publications.filter((p) => p.data.year === year)} />
+          </section>
+        </>
+      ))
+    }
+  </article>
+</Base>

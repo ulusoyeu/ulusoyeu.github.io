@@ -1,0 +1,114 @@
+/* al-folio theme: after al-folio (https://github.com/alshedivat/al-folio), MIT licence. */
+
+:root {
+  --bg: #fff;
+  --text: #212529;
+  --muted: #6c757d;
+  --accent: #b509ac;
+  --rule: #c8c8c8;
+  --border: #e5e5e5;
+  --width: 930px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Header: sticky bar, name on the left, links on the right */
+.site-header {
+  position: sticky; top: 0; z-index: 5;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.5rem 1.5rem;
+  padding: 0.75rem max(1rem, calc((100% - var(--width)) / 2 + 1rem));
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--border);
+}
+.site-title { color: var(--text); font-size: 1.15rem; font-weight: 300; }
+.site-title:hover { text-decoration: none; color: var(--accent); }
+.site-header nav a { color: var(--text); font-size: 0.95rem; }
+.site-header nav a:hover, .site-header nav a[aria-current="page"] { color: var(--accent); text-decoration: none; }
+
+main { max-width: var(--width); margin: 0 auto; padding: 2rem 1rem 3rem; }
+
+h1 { font-size: 2.5rem; font-weight: 300; line-height: 1.2; margin: 1rem 0 0.25rem; }
+h2 { font-size: 1.5rem; font-weight: 400; color: var(--accent); margin: 0 0 1rem; }
+h3 { font-size: 1.1rem; font-weight: 500; margin: 0; }
+.subtitle { color: var(--muted); margin: 0 0 2rem; }
+p { margin: 0 0 1rem; }
+blockquote { margin: 1.5rem 0; padding: 0.25rem 1.25rem; border-left: 3px solid var(--accent); color: var(--muted); }
+pre { padding: 1rem; border-radius: 6px; font-size: 0.875rem; line-height: 1.45; }
+code { font-size: 0.9em; }
+hr:not(.fade) { border: 0; height: 1px; background: linear-gradient(to right, transparent, var(--rule), transparent); margin: 2rem 0; }
+
+/* Home: portrait on the right, bio wraps on the left */
+.profile { display: grid; gap: 1.5rem; }
+.portrait { margin: 0 auto; max-width: 15rem; text-align: center; }
+.portrait img { border-radius: 6px; box-shadow: 0 4px 14px rgb(0 0 0 / 0.15); width: 100%; }
+.contact { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; font-size: 1.5rem; }
+.contact a { color: var(--text); }
+.contact a:hover { color: var(--accent); }
+.contact span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+@media (min-width: 640px) {
+  .profile { grid-template-columns: 1fr 30%; gap: 2rem; }
+  .bio { grid-row: 1; grid-column: 1; }
+  .portrait { grid-row: 1; grid-column: 2; margin: 0; max-width: none; }
+}
+
+/* News: date column + text, like a table */
+.news-list li { display: grid; grid-template-columns: 7rem 1fr; gap: 1rem; padding: 0.4rem 0; }
+.news-list time { font-weight: 600; white-space: nowrap; }
+.news-list p { margin: 0; }
+@media (max-width: 480px) { .news-list li { grid-template-columns: 1fr; gap: 0; } }
+
+/* Publications: coloured venue badge + entry */
+.pub { display: grid; grid-template-columns: 6.5rem 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+.pub-badge {
+  align-self: start; text-align: center; padding: 0.15rem 0.25rem; border-radius: 3px;
+  background: var(--accent); color: #fff; font-size: 0.8rem; font-weight: 600;
+}
+.pub-title { display: block; color: var(--text); font-weight: 600; }
+.pub-title:hover { color: var(--accent); }
+.pub-authors { font-size: 0.95rem; }
+.me { font-weight: 600; text-decoration: underline; }
+.pub-venue { font-size: 0.95rem; color: var(--muted); }
+.pub-links { gap: 0.5rem; margin-top: 0.4rem; }
+.pub-links a {
+  display: inline-block; padding: 0.05rem 0.6rem; border: 1px solid var(--text); border-radius: 3px;
+  color: var(--text); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.03em;
+}
+.pub-links a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+@media (max-width: 480px) { .pub { grid-template-columns: 1fr; gap: 0.4rem; } .pub-badge { justify-self: start; padding: 0.1rem 0.6rem; } }
+.more { margin-top: 1rem; }
+.bibtex { background: #f6f8fa; border: 1px solid var(--border); }
+.publication h1 { font-size: 2rem; font-weight: 400; }
+.publication .pub-authors, .publication .pub-venue { font-size: 1rem; margin: 0 0 0.25rem; }
+.publication .pub-links { margin-top: 0.75rem; }
+
+/* Lists of posts and poems */
+.post-list li { padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
+.post-list li:last-child { border-bottom: 0; }
+.post-list time { display: block; color: var(--muted); font-size: 0.85rem; }
+.post-list a { font-size: 1.15rem; }
+.post-list p { margin: 0.2rem 0 0; color: var(--muted); }
+
+/* Art */
+.gallery img { border-radius: 6px; }
+.gallery figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 0.4rem; text-align: center; }
+.music-list li { padding: 0.75rem 0; }
+.music-list .meta { margin: 0.1rem 0 0.5rem; color: var(--muted); font-size: 0.9rem; }
+.poem .page-header { text-align: center; }
+.poem-body { max-width: 32rem; margin: 2rem auto 3rem; font-family: Georgia, "Times New Roman", serif; font-size: 1.15rem; line-height: 1.8; }
+.poem-body p { margin-bottom: 1.6rem; }
+.poem .more { text-align: center; }
+
+.site-footer { border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-size: 0.85rem; padding: 1.25rem 1rem; }
+.site-footer p { margin: 0; }
+.publication .page-header { margin-bottom: 2.5rem; }

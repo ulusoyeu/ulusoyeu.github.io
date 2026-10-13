@@ -1,0 +1,72 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../../layouts/Base.astro';
+import { getPoems, getPhotos, getMusic } from '../../../lib/content';
+import { themePaths, href, formatDate } from '../../../lib/routes';
+
+export const getStaticPaths = () => themePaths();
+
+const theme = Astro.params.theme;
+const [poems, photos, music] = await Promise.all([getPoems(), getPhotos(), getMusic()]);
+---
+
+<Base title="Personal" description="Poetry, photography and music.">
+  <article class="personal">
+    <header class="page-header">
+      <h1>Personal</h1>
+      <p class="subtitle">Poetry, photography and music.</p>
+    </header>
+
+    <section aria-labelledby="poetry">
+      <h2 id="poetry">Poetry</h2>
+      <ul class="post-list">
+        {
+          poems.map((poem) => (
+            <li>
+              <time datetime={poem.data.date.toISOString()}>{formatDate(poem.data.date)}</time>
+              <a href={href(theme, `/personal/poetry/${poem.id}/`)}>{poem.data.title}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <hr class="fade" />
+
+    <section aria-labelledby="photography">
+      <h2 id="photography">Photography</h2>
+      <div class="gallery">
+        {
+          photos.map(({ data }) => (
+            <figure>
+              <a href={data.image.src}>
+                <Image src={data.image} alt={data.alt} widths={[400, 800]} sizes="(min-width: 760px) 360px, 100vw" />
+              </a>
+              {data.caption && <figcaption>{data.caption}</figcaption>}
+            </figure>
+          ))
+        }
+      </div>
+    </section>
+
+    <hr class="fade" />
+
+    <section aria-labelledby="music">
+      <h2 id="music">Music</h2>
+      <ul class="music-list">
+        {
+          music.map(({ data }) => (
+            <li>
+              <h3>{data.link ? <a href={data.link}>{data.title}</a> : data.title}</h3>
+              <p class="meta">
+                <time datetime={data.date.toISOString()}>{formatDate(data.date)}</time>
+                {data.description && <> · {data.description}</>}
+              </p>
+              {data.audio && <audio controls preload="none" src={data.audio} />}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </article>
+</Base>

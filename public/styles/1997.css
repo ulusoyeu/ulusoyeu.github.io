@@ -1,0 +1,91 @@
+/* 1997 theme: a hand-written academic homepage from the early web.
+   Details: Netscape grey, Times, default link blue / visited purple, bevelled <hr>,
+   [ About | Blog ] navigation, centred title, photo floated left, bulleted news,
+   numbered publications with [PDF] links, blue borders on linked images, <address> footer. */
+
+:root { --rule: #808080; }
+
+body {
+  background: #c0c0c0;
+  color: #000;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+  line-height: 1.3;
+  max-width: 50em;
+  margin: 8px;
+}
+@media (min-width: 900px) { body { margin: 8px 8px 8px 24px; } }
+
+a { color: #0000ee; }
+a:visited { color: #551a8b; }
+a:active { color: #e00; }
+.skip-link { background: #fff; }
+
+.site-header { text-align: center; margin: 0.5em 0 1em; }
+.site-title { display: none; }
+.site-header nav ul { justify-content: center; gap: 0; }
+.site-header nav ul::before { content: "[\00a0"; }
+.site-header nav ul::after { content: "\00a0]"; }
+.site-header nav li + li::before { content: "\00a0|\00a0"; }
+.site-header nav a[aria-current="page"] { color: #000; font-weight: bold; text-decoration: none; }
+
+.page-header { text-align: center; }
+h1 { font-size: 2em; margin: 0.4em 0 0.2em; }
+.subtitle { font-style: italic; margin: 0 0 1em; }
+h2 { font-size: 1.5em; margin: 0.6em 0 0.5em; }
+h3 { font-size: 1.17em; margin: 0; }
+p { margin: 0 0 1em; }
+
+/* Bevelled rule */
+hr, hr.fade { height: 0; background: none; border: 0; border-top: 1px solid #808080; border-bottom: 1px solid #fff; margin: 1em 0; clear: both; }
+
+/* <img align="left"> */
+.profile { display: flow-root; }
+.portrait { float: left; width: 150px; margin: 0 16px 8px 0; }
+.portrait img { border: 1px solid #000; }
+.contact { font-size: small; margin-top: 4px; }
+.contact .icon { display: none; }
+.contact span { overflow-wrap: anywhere; }
+
+.news-list { list-style: disc; padding-left: 40px; }
+.news-list li { margin: 0.3em 0; }
+.news-list li > *, .news-list p { display: inline; }
+.news-list time { font-weight: bold; }
+.news-list time::after { content: ":\00a0"; }
+.news-list li:first-child::after { content: " NEW!"; color: #f00; font-weight: bold; font-size: x-small; vertical-align: super; }
+
+.pub-list { list-style: decimal; padding-left: 40px; }
+.pub { margin-bottom: 0.8em; }
+.pub-badge { display: none; }
+.pub-title { font-weight: bold; }
+.pub-venue em { font-style: italic; }
+.pub-links { display: inline-flex; gap: 0 0.4em; }
+.pub-links li::before { content: "["; }
+.pub-links li::after { content: "]"; }
+.more { margin-top: 1em; }
+
+.post-list { list-style: disc; padding-left: 40px; }
+.post-list li { margin-bottom: 0.6em; }
+.post-list time::after { content: " \2014  "; }
+.post-list p { margin: 0; font-size: small; }
+
+/* Art */
+.gallery { grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); gap: 12px; }
+.gallery a img { border: 2px solid #0000ee; }
+.gallery figcaption { font-size: small; text-align: center; margin-top: 4px; }
+.music-list { list-style: disc; padding-left: 40px; }
+.music-list li { margin-bottom: 0.8em; }
+.music-list .meta { margin: 0 0 0.3em; font-size: small; }
+.poem .page-header { margin-bottom: 1.5em; }
+.poem-body { text-align: center; }
+.poem .more { text-align: center; }
+
+pre.astro-code, pre.astro-code span { background: none !important; color: #000 !important; }
+pre, code { font-family: "Courier New", Courier, monospace; }
+pre { padding: 0; }
+blockquote { margin: 1em 40px; }
+
+/* <address> */
+.site-footer { margin-top: 2em; border-top: 1px solid #808080; box-shadow: 0 1px 0 #fff inset; padding-top: 0.5em; font-style: italic; font-size: small; }
+.site-footer p { margin: 0; }
+.site-footer::after { content: "Best viewed with any browser."; display: block; margin-top: 0.3em; }

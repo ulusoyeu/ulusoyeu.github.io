@@ -1,0 +1,25 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import Base from '../../../../layouts/Base.astro';
+import { getPoems } from '../../../../lib/content';
+import { themePaths, href, formatDate } from '../../../../lib/routes';
+
+export async function getStaticPaths() {
+  const poems = await getPoems();
+  return themePaths(poems.map((poem) => ({ params: { id: poem.id }, props: poem })));
+}
+
+const poem = Astro.props as CollectionEntry<'poetry'>;
+const { Content } = await render(poem);
+---
+
+<Base title={poem.data.title} description={`A poem: ${poem.data.title}`} type="article" published={poem.data.date}>
+  <article class="poem">
+    <header class="page-header">
+      <h1>{poem.data.title}</h1>
+      <p class="subtitle"><time datetime={poem.data.date.toISOString()}>{formatDate(poem.data.date)}</time></p>
+    </header>
+    <div class="poem-body"><Content /></div>
+    <p class="more"><a href={href(Astro.params.theme, '/personal/')}>← Personal</a></p>
+  </article>
+</Base>

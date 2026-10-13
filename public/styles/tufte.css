@@ -1,0 +1,109 @@
+/* Tufte theme: after Tufte CSS (https://edwardtufte.github.io/tufte-css/), MIT licence. */
+
+@font-face { font-family: et-book; font-style: normal; font-weight: 400; font-display: swap;
+  src: url(/fonts/et-book/et-book-roman-line-figures.woff) format("woff"); }
+@font-face { font-family: et-book; font-style: italic; font-weight: 400; font-display: swap;
+  src: url(/fonts/et-book/et-book-display-italic-old-style-figures.woff) format("woff"); }
+@font-face { font-family: et-book; font-style: normal; font-weight: 700; font-display: swap;
+  src: url(/fonts/et-book/et-book-bold-line-figures.woff) format("woff"); }
+
+:root {
+  --bg: #fffff8;
+  --text: #111;
+  --muted: #555;
+  --rule: #111;
+  --main: 38rem;   /* text column */
+  --margin: 14rem; /* margin column (portrait) */
+  font-size: 15px;
+}
+@media (min-width: 760px) { :root { font-size: 16px; } }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: et-book, Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  font-size: 1.3rem;
+  line-height: 1.6;
+  font-variant-numeric: lining-nums;
+  max-width: calc(var(--main) + var(--margin) + 4rem);
+  padding: 0 1.25rem;
+  margin: 0 auto;
+}
+@media (min-width: 760px) { body { padding: 0 3rem; max-width: calc(var(--main) + var(--margin) + 10rem); } }
+
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+a:hover { text-decoration-thickness: 2px; }
+
+/* Header */
+.site-header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 2rem;
+  padding: 2rem 0 0; max-width: calc(var(--main) + var(--margin) + 4rem); }
+.site-title { font-variant: small-caps; letter-spacing: 0.05em; text-decoration: none; font-size: 1.2rem; }
+.site-header nav a { text-decoration: none; font-style: italic; font-size: 1.1rem; color: var(--muted); }
+.site-header nav a[aria-current="page"] { color: var(--text); text-decoration: underline; }
+
+main { max-width: calc(var(--main) + var(--margin) + 4rem); padding-bottom: 3rem; }
+main > article > *:not(.profile) { max-width: var(--main); }
+
+h1 { font-weight: 400; font-size: 3rem; line-height: 1.1; margin: 3rem 0 0.5rem; }
+h2 { font-weight: 400; font-style: italic; font-size: 2rem; line-height: 1.2; margin: 0 0 1rem; }
+h3 { font-weight: 400; font-style: italic; font-size: 1.5rem; margin: 0; }
+.subtitle { font-style: italic; font-size: 1.5rem; color: var(--muted); margin: 0 0 2rem; }
+p, li { margin: 0 0 1rem; }
+.prose p { margin-bottom: 1.2rem; }
+blockquote { margin: 1.5rem 0; padding-left: 1.5rem; font-style: italic; }
+pre, code { font-family: Consolas, "Liberation Mono", Menlo, monospace; font-size: 0.95rem; }
+pre { padding: 1rem; line-height: 1.4; }
+hr:not(.fade) { border: 0; height: 1px; background: linear-gradient(to right, transparent, var(--rule), transparent); margin: 2rem 0; }
+
+/* Home: portrait sits in the margin column on wide screens */
+.profile { display: grid; gap: 1.5rem; }
+.portrait { margin: 0; max-width: 12rem; }
+.portrait img { filter: grayscale(0.15); }
+.contact { margin-top: 0.75rem; font-size: 1.05rem; line-height: 1.5; }
+.contact li { margin: 0; }
+.contact a { display: inline-flex; align-items: baseline; text-decoration: none; color: var(--muted); }
+.contact span { overflow-wrap: anywhere; }
+.contact a:hover span { text-decoration: underline; }
+.contact .icon { flex: none; margin-right: 0.4rem; }
+@media (min-width: 760px) {
+  .profile { grid-template-columns: minmax(0, var(--main)) var(--margin); column-gap: 4rem; }
+  .bio { grid-row: 1; grid-column: 1; }
+  .portrait { grid-row: 1; grid-column: 2; max-width: none; }
+}
+
+/* News */
+.news-list li { display: grid; grid-template-columns: 7rem 1fr; gap: 1rem; margin-bottom: 0.5rem; }
+.news-list time, .post-list time, .meta time { font-variant: small-caps; color: var(--muted); font-size: 1.15rem; }
+.news-list p { margin: 0; }
+@media (max-width: 480px) { .news-list li { grid-template-columns: 1fr; gap: 0; } }
+
+/* Publications */
+.pub { margin-bottom: 1.5rem; }
+.pub-badge { display: none; }
+.pub-title { text-decoration: none; }
+.pub-title:hover { text-decoration: underline; }
+.pub-authors, .pub-venue { font-size: 1.2rem; color: var(--muted); }
+.me { font-weight: 400; color: var(--text); text-decoration: underline; text-decoration-thickness: 1px; }
+.pub-links { font-variant: small-caps; font-size: 1.15rem; letter-spacing: 0.03em; }
+.pub-links li { margin: 0; }
+.more { font-style: italic; }
+.bibtex { background: #f3f2e9; font-size: 0.85rem; }
+.publication .pub-authors, .publication .pub-venue { margin: 0 0 0.25rem; font-size: 1.3rem; }
+.publication .pub-links { margin-top: 0.75rem; }
+
+/* Lists of posts and poems */
+.post-list li { margin-bottom: 1.25rem; }
+.post-list time { display: block; }
+.post-list p { margin: 0; color: var(--muted); font-size: 1.2rem; }
+
+/* Art */
+.gallery figcaption { font-size: 1.1rem; font-style: italic; color: var(--muted); margin-top: 0.4rem; }
+main > article.personal > .gallery, main > article > section:has(.gallery) { max-width: calc(var(--main) + var(--margin)); }
+.music-list li { margin-bottom: 1.5rem; }
+.music-list .meta { margin: 0 0 0.5rem; font-size: 1.15rem; color: var(--muted); }
+.poem { text-align: left; }
+.poem-body { font-size: 1.45rem; line-height: 1.7; margin: 2rem 0 3rem; }
+.poem-body p { margin-bottom: 1.8rem; }
+
+.site-footer { max-width: var(--main); padding: 2rem 0 3rem; color: var(--muted); font-size: 1.05rem; font-style: italic; }
+.publication .page-header { margin-bottom: 2.5rem; }

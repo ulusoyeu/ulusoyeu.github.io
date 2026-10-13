@@ -1,0 +1,27 @@
+# Tools and dependencies for this site. This is a reference list, not a pip file:
+# Node is downloaded by `make setup`, and npm packages are pinned in package-lock.json.
+
+# Toolchain
+node==24.21.0          # project-local, in .tools/ (version in .node-version)
+npm==11.19.0           # bundled with Node
+make                   # GNU Make, preinstalled on macOS
+curl, tar              # used by `make setup` to download Node
+
+# Runtime dependencies (package.json "dependencies")
+astro==7.3.8                       # static site framework
+@astrojs/markdown-satteri==0.4.3   # Astro's Markdown processor
+satteri==0.10.5                    # Markdown parser (used by the KaTeX plugin)
+katex==0.19.0                      # math rendering at build time
+@retorquere/bibtex-parser==12.1.3  # reads src/content/publications.bib
+
+# Development only (package.json "devDependencies")
+@astrojs/check==0.9.10   # `npm run check` type checking
+typescript==6.0.3
+@types/node==24.19.2
+
+# Vendored assets
+ET Book fonts (public/fonts/et-book/, MIT, from tufte-css 1.9.0)
+Computer Modern fonts (public/fonts/cm/, MIT, copied from katex 0.19.0)
+
+# Deployment
+GitHub Actions: actions/checkout@v7, withastro/action@v6, actions/deploy-pages@v5

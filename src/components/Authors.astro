@@ -1,0 +1,18 @@
+---
+import { ME } from '../config';
+interface Props {
+  authors: { first: string; last: string }[];
+}
+const { authors } = Astro.props;
+---
+
+<span class="authors">
+  {
+    authors.map((a, i) => (
+      <>
+        {a.last === ME.lastName ? <strong class="me">{a.first} {a.last}</strong> : `${a.first} ${a.last}`}
+        {i < authors.length - 2 ? ', ' : i === authors.length - 2 ? (authors.length > 2 ? ', and ' : ' and ') : ''}
+      </>
+    ))
+  }
+</span>
