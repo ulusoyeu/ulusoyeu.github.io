@@ -2,7 +2,7 @@
 
 export const SITE = {
   title: 'Emre Ulusoy',
-  description: 'Research, writing and art by Emre Ulusoy.',
+  description: 'Research by Emre Ulusoy, mathematics PhD student at Imperial College London working on graph theory, topology and machine learning.',
   url: 'https://ulusoyeu.github.io',
   lang: 'en',
 };
