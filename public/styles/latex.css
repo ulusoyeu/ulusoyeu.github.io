@@ -121,6 +121,28 @@ hr:not(.fade) { border: 0; border-top: 0.5px solid var(--text); margin: 1.5rem 0
 .poem-body { width: fit-content; margin: 0 auto 2.5rem; }
 .poem-body p { text-align: left; margin-bottom: 1.2rem; }
 
+/* Personal page photo ---------------------------------------------------------------------
+   --photo-width   how wide the photo is, as a share of the text width (e.g. 35%, 50%, 60%)
+   --photo-side    right or left
+   --photo-gap     space between the photo and the text next to it
+   On narrow screens (below --photo-stack, set in the @media line) it goes full width instead. */
+.side-photo {
+  --photo-width: 45%;
+  --photo-side: right;
+  --photo-gap: 2rem;
+  float: var(--photo-side);
+  width: var(--photo-width);
+  margin: 0 0 1.5rem var(--photo-gap);
+}
+.side-photo img { width: 100%; border-radius: 10px; }
+.side-photo figcaption { text-align: center; font-size: 0.85rem; margin-top: 0.4rem; }
+.side-photo figcaption::before { counter-increment: figure; content: "Figure " counter(figure) ": "; }
+.personal { display: flow-root; }
+.side-photo ~ section { clear: both; } /* sections start below the photo */
+@media (max-width: 600px) { /* --photo-stack */
+  .side-photo { float: none; width: 100%; margin: 0 0 1.5rem; }
+}
+
 /* verbatim */
 pre, code { font-family: cmtt, "Latin Modern Mono", monospace; font-size: 0.9rem; }
 pre.astro-code, pre.astro-code span { background: none !important; color: var(--text) !important; }

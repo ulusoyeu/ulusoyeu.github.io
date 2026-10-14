@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
 import { getPoems, getPhotos, getMusic } from '../../../lib/content';
 import { themePaths, href, displayDate } from '../../../lib/routes';
+import stage from '../../../content/images/stage.jpg';
 
 export const getStaticPaths = () => themePaths();
 
@@ -14,9 +15,24 @@ const [poems, photos, music] = await Promise.all([getPoems(), getPhotos(), getMu
   <article class="personal">
     <header class="page-header">
       <h1>Personal</h1>
-      <p class="subtitle">I ocassionally take stage to play funky or wacky music with various projects, and write sloppy poetry in my free time. Most of the poetry is in my mother tongue, Turkish.
-      Also recently getting into photography.</p>
     </header>
+
+    <!-- Photo on the right; the intro wraps around it and the sections below start under it. Size and position: see "Personal page photo" in public/styles/latex.css. -->
+    <figure class="side-photo">
+      <Image
+        src={stage}
+        alt="Emre playing electric guitar on stage under red lights, with the band behind"
+        width={1200}
+        widths={[480, 800, 1200]}
+        sizes="(min-width: 760px) 400px, 100vw"
+      />
+      <figcaption>On stage with the beautiful and most talented Cosmos Zero and Zao Yuan.</figcaption>
+    </figure>
+
+    <div class="intro">
+      <p>I ocassionally take stage to play funky or wacky music with various projects, and write sloppy poetry in my free time. Most of the poetry is in my mother tongue, Turkish.
+      Also recently getting into photography.</p>
+    </div>
 
 <!-- 
     <section aria-labelledby="photography">
