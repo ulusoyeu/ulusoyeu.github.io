@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
 import { getPoems, getPhotos, getMusic } from '../../../lib/content';
-import { themePaths, href, formatDate } from '../../../lib/routes';
+import { themePaths, href, displayDate } from '../../../lib/routes';
 
 export const getStaticPaths = () => themePaths();
 
@@ -14,25 +14,11 @@ const [poems, photos, music] = await Promise.all([getPoems(), getPhotos(), getMu
   <article class="personal">
     <header class="page-header">
       <h1>Personal</h1>
-      <p class="subtitle">Poetry, photography and music.</p>
+      <p class="subtitle">I ocassionally take stage to play funky or wacky music with various projects, and write sloppy poetry in my free time. Most of the poetry is in my mother tongue, Turkish.
+      Also recently getting into photography.</p>
     </header>
 
-    <section aria-labelledby="poetry">
-      <h2 id="poetry">Poetry</h2>
-      <ul class="post-list">
-        {
-          poems.map((poem) => (
-            <li>
-              <time datetime={poem.data.date.toISOString()}>{formatDate(poem.data.date)}</time>
-              <a href={href(theme, `/personal/poetry/${poem.id}/`)}>{poem.data.title}</a>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
-
-    <hr class="fade" />
-
+<!-- 
     <section aria-labelledby="photography">
       <h2 id="photography">Photography</h2>
       <div class="gallery">
@@ -50,6 +36,24 @@ const [poems, photos, music] = await Promise.all([getPoems(), getPhotos(), getMu
     </section>
 
     <hr class="fade" />
+-->
+
+    <section aria-labelledby="poetry">
+      <h2 id="poetry">Şiirler</h2>
+      <ul class="post-list">
+        {
+          poems.map((poem) => (
+            <li>
+              <time datetime={displayDate(poem.data).iso}>{displayDate(poem.data).label}</time>
+              <a href={href(theme, `/personal/poetry/${poem.id}/`)}>{poem.data.title}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+<!-- 
+    <hr class="fade" />
 
     <section aria-labelledby="music">
       <h2 id="music">Music</h2>
@@ -59,7 +63,7 @@ const [poems, photos, music] = await Promise.all([getPoems(), getPhotos(), getMu
             <li>
               <h3>{data.link ? <a href={data.link}>{data.title}</a> : data.title}</h3>
               <p class="meta">
-                <time datetime={data.date.toISOString()}>{formatDate(data.date)}</time>
+                <time datetime={displayDate(data).iso}>{displayDate(data).label}</time>
                 {data.description && <> · {data.description}</>}
               </p>
               {data.audio && <audio controls preload="none" src={data.audio} />}
@@ -68,5 +72,6 @@ const [poems, photos, music] = await Promise.all([getPoems(), getPhotos(), getMu
         }
       </ul>
     </section>
+-->
   </article>
 </Base>

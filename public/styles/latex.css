@@ -1,17 +1,18 @@
-/* LaTeX theme: the page set like a LaTeX article. Computer Modern via KaTeX's fonts (MIT licence).
-   Details: running head, \maketitle, abstract, numbered sections, indented paragraphs,
-   [1] bibliography, hyperref's red/cyan link boxes, page number as footer. */
+/* LaTeX theme: the page set like a LaTeX article, in CMU (Computer Modern Unicode, SIL OFL),
+   subset to Latin so Turkish and other accented letters are real glyphs, not fallbacks.
+   Details: running head, \maketitle, abstract, numbered sections, [1] bibliography,
+   hyperref's red/cyan link boxes, page number as footer. */
 
 @font-face { font-family: cmr; font-style: normal; font-weight: 400; font-display: swap;
-  src: url(/fonts/cm/KaTeX_Main-Regular.woff2) format("woff2"); }
+  src: url(/fonts/cmu/cmu-serif-500-roman.woff2) format("woff2"); }
 @font-face { font-family: cmr; font-style: italic; font-weight: 400; font-display: swap;
-  src: url(/fonts/cm/KaTeX_Main-Italic.woff2) format("woff2"); }
+  src: url(/fonts/cmu/cmu-serif-500-italic.woff2) format("woff2"); }
 @font-face { font-family: cmr; font-style: normal; font-weight: 700; font-display: swap;
-  src: url(/fonts/cm/KaTeX_Main-Bold.woff2) format("woff2"); }
+  src: url(/fonts/cmu/cmu-serif-700-roman.woff2) format("woff2"); }
 @font-face { font-family: cmr; font-style: italic; font-weight: 700; font-display: swap;
-  src: url(/fonts/cm/KaTeX_Main-BoldItalic.woff2) format("woff2"); }
+  src: url(/fonts/cmu/cmu-serif-700-italic.woff2) format("woff2"); }
 @font-face { font-family: cmtt; font-style: normal; font-weight: 400; font-display: swap;
-  src: url(/fonts/cm/KaTeX_Typewriter-Regular.woff2) format("woff2"); }
+  src: url(/fonts/cmu/cmu-typewriter-text-500-roman.woff2) format("woff2"); }
 
 :root {
   --bg: #fdfdfb;

@@ -15,7 +15,7 @@ export const NAV = [
   { label: 'About', path: '/' },
   { label: 'Publications', path: '/publications/' },
   { label: 'Blog', path: '/blog/' },
-//  { label: 'Personal', path: '/personal/' },
+  { label: 'Personal', path: '/personal/' },
 ];
 
 // Each theme is one stylesheet in public/styles/. THEME is the one the site uses, built at /.

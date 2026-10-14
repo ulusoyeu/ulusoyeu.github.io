@@ -21,7 +21,7 @@ typescript==6.0.3
 
 # Vendored assets
 ET Book fonts (public/fonts/et-book/, MIT, from tufte-css 1.9.0)
-Computer Modern fonts (public/fonts/cm/, MIT, copied from katex 0.19.0)
+CMU Serif / Typewriter fonts (public/fonts/cmu/, SIL OFL, from computer-modern 0.1.3, subset to Latin)
 
 # Deployment
 GitHub Actions: actions/checkout@v7, withastro/action@v6, actions/deploy-pages@v5
