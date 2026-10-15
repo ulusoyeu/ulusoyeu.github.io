@@ -3,8 +3,6 @@ title: retrospektif 3. lavanta
 date: 2025-06
 ---
 
-3. **lavanta** (06.2025)
-
 aynı ağacın iki kırık dalıyız biz
 sen elma dersin, ben armut
 ben elma derim, sen de çekip gidersin
@@ -12,9 +10,10 @@ ben elma derim, sen de çekip gidersin
 retrospektiften gelme bir huyum var,
 aptal, sakin, sokakta,
 yürürüm bir ileri bir geri
-şehrin gürültüsünden kaçıp
+şehrin gürültüsünden kaçarken
+ayağım takılıp düşmüşüm.
 retrospektiften dolayı gururum var
-diye övünür, yine de bırakamam
+diye yakınır, yine de bırakamam
 
 aynı ağacın gölgesinde
 bir çürük bir de yarım elma,
