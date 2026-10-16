@@ -23,7 +23,7 @@ ne düşünürler arkandan?
 günahı baştan yazılmış bir fıkraymış 
 bizimkisi
 yolun sonu ilkbahar, durgun deniz
-ahşap masam, solgun yüzün
+ahşap masam kadar solgun yüzün
 bu kadar üzülecek ne vardı 
 bir bilsem çözeriz bütün dertleri
 günahı üstüme sinen bir gürültü
