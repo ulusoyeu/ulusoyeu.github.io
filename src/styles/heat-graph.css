@@ -1,0 +1,137 @@
+/* Heat-diffusion graph background. Markup: src/components/HeatGraph.astro.
+   Logic and config: src/scripts/heat-graph.js. Only loaded on pages that use <HeatGraph />. */
+
+/* Colours. The site's LaTeX theme is light-only, so these are the light values; the dark set
+   below applies if a dark mode is ever added via data-theme="dark" (or a .dark class) on <html>.
+   The script re-reads them whenever those change. */
+:root {
+  --hg-bg: var(--bg, #fdfdfb); /* the page background, so the canvas blends in */
+  --hg-node: #7c8a9c;
+  --hg-edge: #8592a3;
+  --hg-heat-a: #960000;
+  --hg-heat-b: #510000;
+  --hg-accent: #c2263a;
+  --hg-ink: var(--text, #1b2430);
+  --hg-muted: #5b6878;
+  --hg-panel: rgb(255 255 255 / 0.86);
+  --hg-line: #cfd6de;
+}
+:root[data-theme="dark"], :root.dark {
+  --hg-bg: var(--bg, #0d1117);
+  --hg-node: #4d5a6b;
+  --hg-edge: #3d4857;
+  --hg-heat-a: #c41a1a;
+  --hg-heat-b: #ff6a3d;
+  --hg-accent: #ffb547;
+  --hg-ink: #e6e9ee;
+  --hg-muted: #8c97a6;
+  --hg-panel: rgb(18 23 31 / 0.86);
+  --hg-line: #273140;
+}
+
+/* The canvas sits behind all page content (z-index -1) and never receives pointer events;
+   the script listens on window instead, so links, text selection and controls work as usual. */
+.hg-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: -1;
+  pointer-events: none;
+}
+/* Let the canvas show through on pages that have it. */
+html:has(.hg-canvas) { background: var(--hg-bg); }
+html:has(.hg-canvas) body { background: transparent; }
+
+/* ---- Tune dropdown -------------------------------------------------------------------------
+   Move the Tune dropdown here: change the four --hg-tune-* values (use auto for unused sides),
+   e.g. bottom-left: top auto, right auto, bottom 16px, left 16px, and add .hg-tune--up so the
+   panel opens upward. To put it inside the navbar or footer instead, move the .hg-tune markup
+   there (see HeatGraph.astro) and add .hg-tune--inline. Add .hg-tune--start to align the panel
+   to the button's left edge instead of its right. */
+.hg-tune {
+  --hg-tune-top: 4.75rem;
+  --hg-tune-right: 16px;
+  --hg-tune-bottom: auto;
+  --hg-tune-left: auto;
+  position: fixed;
+  top: var(--hg-tune-top);
+  right: var(--hg-tune-right);
+  bottom: var(--hg-tune-bottom);
+  left: var(--hg-tune-left);
+  z-index: 10;
+  font-family: inherit;
+  font-size: 0.8rem;
+  line-height: 1.3;
+  color: var(--hg-ink);
+}
+.hg-tune[hidden] { display: none; }
+.hg-tune--inline { position: relative; inset: auto; display: inline-block; }
+
+.hg-tune__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  font: inherit;
+  color: var(--hg-ink);
+  background: var(--hg-panel);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--hg-line);
+  border-radius: 6px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.hg-tune__toggle:hover { border-color: var(--hg-muted); }
+.hg-tune__toggle svg { width: 0.95em; height: 0.95em; flex: none; }
+.hg-tune__chevron { transition: transform 0.15s; }
+.hg-tune__toggle[aria-expanded="true"] .hg-tune__chevron { transform: rotate(180deg); }
+.hg-tune--up .hg-tune__chevron { transform: rotate(180deg); }
+.hg-tune--up .hg-tune__toggle[aria-expanded="true"] .hg-tune__chevron { transform: none; }
+
+.hg-tune__panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  width: min(19rem, calc(100vw - 32px));
+  display: grid;
+  gap: 0.7rem;
+  padding: 0.9rem;
+  background: var(--hg-panel);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--hg-line);
+  border-radius: 10px;
+  box-shadow: 0 6px 24px rgb(0 0 0 / 0.08);
+}
+.hg-tune__panel[hidden] { display: none; }
+.hg-tune--up .hg-tune__panel { top: auto; bottom: calc(100% + 6px); }
+.hg-tune--start .hg-tune__panel { right: auto; left: 0; }
+
+.hg-tune__row { display: grid; gap: 0.25rem; }
+.hg-tune__row label { display: flex; justify-content: space-between; color: var(--hg-muted); }
+.hg-tune__row output, .hg-tune__stats b { color: var(--hg-ink); font-weight: 400; font-variant-numeric: tabular-nums; }
+.hg-tune__row input[type="range"] { width: 100%; margin: 0; accent-color: var(--hg-accent); }
+.hg-tune__buttons { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.hg-tune__buttons button {
+  font: inherit;
+  color: var(--hg-ink);
+  background: transparent;
+  border: 1px solid var(--hg-line);
+  border-radius: 6px;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+}
+.hg-tune__buttons button:hover { border-color: var(--hg-muted); }
+.hg-tune__stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--hg-line);
+  color: var(--hg-muted);
+  font-variant-numeric: tabular-nums;
+}
+.hg-tune :focus-visible { outline: 2px solid var(--hg-accent); outline-offset: 2px; }

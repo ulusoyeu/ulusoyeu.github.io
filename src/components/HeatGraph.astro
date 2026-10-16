@@ -1,0 +1,63 @@
+---
+// Heat-diffusion graph background: <HeatGraph /> on a page enables it there (script and styles
+// come with it, and only load on pages that use it). Override the config in
+// src/scripts/heat-graph.js per page with data-* attributes, e.g.
+//   <HeatGraph data-nodes="400" data-avg-degree="5" data-tune="false" />
+import '../styles/heat-graph.css';
+
+const sliders = [
+  { key: 'nodes', label: 'Nodes', min: 100, max: 1500, step: 50 },
+  { key: 'avgDegree', label: 'Avg. degree', min: 3, max: 12, step: 0.5 },
+  { key: 'alpha', label: 'Diffusion α', min: 0.05, max: 0.95, step: 0.05 },
+  { key: 'gamma', label: 'Decay γ', min: 0, max: 0.03, step: 0.001 },
+  { key: 'drift', label: 'Drift', min: 0, max: 2, step: 0.1 },
+  { key: 'pull', label: 'Cursor pull', min: 0, max: 2, step: 0.1 },
+];
+---
+
+<div class="hg" {...Astro.props}>
+  <canvas class="hg-canvas" aria-hidden="true"></canvas>
+
+  <!-- Move the Tune dropdown here: its position is set by the --hg-tune-* variables in
+       src/styles/heat-graph.css. To place it in the navbar or footer, move this whole
+       .hg-tune element there and add the class hg-tune--inline (and hg-tune--up near the bottom). -->
+  <div class="hg-tune" hidden>
+    <button class="hg-tune__toggle" type="button" aria-expanded="false" aria-controls="hg-tune-panel">
+      <svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+        <path d="M2 4h7M12 4h2M2 12h2M7 12h7"></path>
+        <circle cx="10.5" cy="4" r="1.5"></circle>
+        <circle cx="5.5" cy="12" r="1.5"></circle>
+      </svg>
+      Tune
+      <svg class="hg-tune__chevron" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 6l4 4 4-4"></path>
+      </svg>
+    </button>
+    <div class="hg-tune__panel" id="hg-tune-panel" role="group" aria-label="Graph settings" hidden>
+      {
+        sliders.map(({ key, label, min, max, step }) => (
+          <div class="hg-tune__row">
+            <label for={`hg-${key}`}>
+              {label} <output data-hg-out={key} for={`hg-${key}`} />
+            </label>
+            <input id={`hg-${key}`} data-hg={key} type="range" min={min} max={max} step={step} />
+          </div>
+        ))
+      }
+      <div class="hg-tune__buttons">
+        <button type="button" data-hg-action="regen">New graph</button>
+        <button type="button" data-hg-action="clear">Clear heat</button>
+        <button type="button" data-hg-action="pause">Pause</button>
+      </div>
+      <div class="hg-tune__stats" aria-live="off">
+        <span>|E| <b data-hg-stat="edges">0</b></span>
+        <span>Σu <b data-hg-stat="heat">0.00</b></span>
+        <span><b data-hg-stat="fps">0</b> fps</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import '../scripts/heat-graph.js';
+</script>
